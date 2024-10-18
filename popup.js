@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     copyButton.addEventListener('click', () => {
       console.log("לחיצה על כפתור העתקה");
       statusMessage.textContent = "מנסה להעתיק...";
+      copyButton.disabled = true;
 
       chrome.runtime.sendMessage({action: "copyContent"}, (response) => {
         if (chrome.runtime.lastError) {
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
           console.error("שגיאה בהעתקה:", response ? response.message : "לא התקבלה תגובה");
           statusMessage.textContent = "שגיאה בהעתקה: " + (response ? response.message : "לא התקבלה תגובה");
         }
+        copyButton.disabled = false;
       });
     });
   } else {

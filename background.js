@@ -5,19 +5,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.scripting.executeScript({
           target: {tabId: tabs[0].id},
           function: () => {
-            return document.body.innerText;
+            const textContent = document.body.innerText;
+            return navigator.clipboard.writeText(textContent)
+              .then(() => ({ status: "success", message: "התוכן הועתק בהצלחה" }))
+              .catch(err => ({ status: "error", message: err.message }));
           }
         }, (results) => {
           if (chrome.runtime.lastError) {
             console.error(chrome.runtime.lastError);
             sendResponse({status: "error", message: "Failed to execute content script"});
-          } else if (results && results[0]) {
-            const textContent = results[0].result;
-            navigator.clipboard.writeText(textContent).then(() => {
-              sendResponse({status: "success", message: "התוכן הועתק בהצלחה"});
-            }).catch(err => {
-              sendResponse({status: "error", message: err.message});
-            });
+          } else if (results && results[0] && results[0].result) {
+            sendResponse(results[0].result);
           } else {
             sendResponse({status: "error", message: "Failed to get page content"});
           }
