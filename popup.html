@@ -1,21 +1,38 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Content Copier</title>
     <style>
         body {
+            width: 300px;
+            padding: 10px;
             font-family: Arial, sans-serif;
-            margin: 20px;
         }
         button {
-            padding: 10px 15px;
-            font-size: 16px;
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #status-message {
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
+    <h1>העתקת תוכן</h1>
     <button id="copy-content">העתק תוכן</button>
+    <div id="status-message"></div>
+    <script src="popup.js"></script>
 </body>
 </html>

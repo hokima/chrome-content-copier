@@ -1,15 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('copy-content').addEventListener('click', () => {
-    console.log("לחיצה על כפתור העתקה"); // הודעת פלט לבדיקת הלחיצה על הכפתור
+  const copyButton = document.getElementById('copy-content');
 
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.tabs.sendMessage(tabs[0].id, { action: "copyContent" }, (response) => {
-        if (response && response.status === "success") {
-          console.log("ההעתקה הושלמה בהצלחה");
+  if (copyButton) {
+    copyButton.addEventListener('click', () => {
+      console.log("לחיצה על כפתור העתקה"); // הודעת פלט לבדיקת הלחיצה על הכפתור
+
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs.length > 0) {
+          chrome.tabs.sendMessage(tabs[0].id, { action: "copyContent" }, (response) => {
+            if (response && response.status === "success") {
+              console.log("ההעתקה הושלמה בהצלחה");
+              alert("התוכן הועתק בהצלחה!");
+            } else {
+              console.error("שגיאה בהעתקה.");
+              alert("אירעה שגיאה בהעתקת התוכן.");
+            }
+          });
         } else {
-          console.error("שגיאה בהעתקה.");
+          console.error("לא נמצא טאב פעיל.");
         }
       });
     });
-  });
+  } else {
+    console.error("כפתור העתקה לא נמצא ב-popup.html");
+  }
 });

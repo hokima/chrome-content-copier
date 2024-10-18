@@ -1,21 +1,14 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "copyContent") {
-    console.log("התקבלה בקשה להעתקת תוכן"); // הודעת פלט לבדיקת קליטת הבקשה
-
     try {
-      // יצירת עותק של תוכן העמוד
-      const clonedDocument = document.body.cloneNode(true);
+      console.log("התקבלה בקשה להעתקת תוכן");
 
-      // הסרת אלמנטים שאינם נחוצים מהעותק בלבד (תמונות, סרטונים, פרסומות וכו')
-      clonedDocument.querySelectorAll('iframe, video, img, .ad, [class*="ad"]').forEach(e => e.remove());
-      console.log("האלמנטים הלא נחוצים הוסרו"); // הודעת פלט לבדיקת שלב הסרת האלמנטים
-
-      // קבלת התוכן הטקסטואלי הנקי מהעותק
-      const textContent = clonedDocument.innerText;
+      // קבלת התוכן הטקסטואלי הנקי
+      const textContent = document.body.innerText;
 
       // העתקת התוכן ללוח
       navigator.clipboard.writeText(textContent).then(() => {
-        console.log("התוכן הועתק בהצלחה ל-Clipboard"); // הודעת פלט לבדיקת הצלחת ההעתקה
+        console.log("התוכן הועתק בהצלחה ל-Clipboard");
         alert("התוכן הועתק בהצלחה ל-Clipboard!");
         sendResponse({ status: "success" });
       }).catch(err => {
