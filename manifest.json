@@ -3,7 +3,16 @@
   "name": "Content Copier without Ads",
   "version": "1.0",
   "description": "תוסף להעתקת תוכן מאתרים ללא פרסומות, סרטונים ותמונות",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "clipboardWrite",
+    "clipboardRead",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -20,4 +29,3 @@
     }
   ]
 }
-
