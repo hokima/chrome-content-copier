@@ -2,22 +2,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "copyContent") {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
       if (tabs[0]) {
-        chrome.scripting.executeScript({
-          target: {tabId: tabs[0].id},
-          function: () => {
-            const textContent = document.body.innerText;
-            return navigator.clipboard.writeText(textContent)
-              .then(() => ({ status: "success", message: "התוכן הועתק בהצלחה" }))
-              .catch(err => ({ status: "error", message: err.message }));
-          }
-        }, (results) => {
+        chrome.tabs.sendMessage(tabs[0].id, {action: "copyContent"}, (response) => {
           if (chrome.runtime.lastError) {
             console.error(chrome.runtime.lastError);
-            sendResponse({status: "error", message: "Failed to execute content script"});
-          } else if (results && results[0] && results[0].result) {
-            sendResponse(results[0].result);
+            sendResponse({status: "error", message: "Failed to communicate with the page"});
           } else {
-            sendResponse({status: "error", message: "Failed to get page content"});
+            sendResponse(response);
           }
         });
       } else {

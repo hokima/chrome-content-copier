@@ -5,7 +5,6 @@
   "description": "תוסף להעתקת תוכן מאתרים ללא פרסומות, סרטונים ותמונות",
   "permissions": [
     "activeTab",
-    "clipboardWrite",
     "scripting"
   ],
   "host_permissions": [

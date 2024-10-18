@@ -8,18 +8,24 @@ document.addEventListener('DOMContentLoaded', () => {
       statusMessage.textContent = "מנסה להעתיק...";
       copyButton.disabled = true;
 
-      chrome.runtime.sendMessage({action: "copyContent"}, (response) => {
-        if (chrome.runtime.lastError) {
-          console.error(chrome.runtime.lastError);
-          statusMessage.textContent = "שגיאה: " + chrome.runtime.lastError.message;
-        } else if (response && response.status === "success") {
-          console.log("ההעתקה הושלמה בהצלחה");
-          statusMessage.textContent = "התוכן הועתק בהצלחה!";
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]) {
+          chrome.tabs.sendMessage(tabs[0].id, { action: "copyContent" }, (response) => {
+            if (chrome.runtime.lastError) {
+              console.error(chrome.runtime.lastError);
+              statusMessage.textContent = "שגיאה: " + chrome.runtime.lastError.message;
+            } else if (response && response.status === "success") {
+              console.log("ההעתקה הושלמה בהצלחה");
+              statusMessage.textContent = "התוכן הועתק בהצלחה!";
+            } else {
+              console.error("שגיאה בהעתקה:", response ? response.message : "לא התקבלה תגובה");
+              statusMessage.textContent = "שגיאה בהעתקה: " + (response ? response.message : "לא התקבלה תגובה");
+            }
+            copyButton.disabled = false;
+          });
         } else {
-          console.error("שגיאה בהעתקה:", response ? response.message : "לא התקבלה תגובה");
-          statusMessage.textContent = "שגיאה בהעתקה: " + (response ? response.message : "לא התקבלה תגובה");
+          statusMessage.textContent = "לא נמצא טאב פעיל";
         }
-        copyButton.disabled = false;
       });
     });
   } else {
