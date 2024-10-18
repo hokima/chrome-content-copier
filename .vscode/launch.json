@@ -1,11 +1,13 @@
 {
     "version": "0.2.0",
     "configurations": [
+      
+
       {
         "type": "chrome",
         "request": "launch",
         "name": "Debug Extension",
-        "url": "https://www.ynet.co.il/sport/worldsoccer/article/hjofg6rjjl",
+        "url": "https://arstechnica.com/ai/2024/10/cheap-ai-video-scraping-can-now-extract-data-from-any-screen-recording/",
         "webRoot": "${workspaceFolder}",
         "runtimeArgs": [
           "--load-extension=${workspaceFolder}",

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Content Copier without Ads",
-  "version": "1.5",
+  "version": "1.6",
   "description": "תוסף להעתקת תוכן מאתרים ללא פרסומות, סרטונים ותמונות",
   "permissions": [
     "activeTab"
