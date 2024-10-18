@@ -9,15 +9,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // העתקת התוכן ללוח
       navigator.clipboard.writeText(textContent).then(() => {
         console.log("התוכן הועתק בהצלחה ל-Clipboard");
-        alert("התוכן הועתק בהצלחה ל-Clipboard!");
-        sendResponse({ status: "success" });
+        sendResponse({ status: "success", message: "התוכן הועתק בהצלחה" });
       }).catch(err => {
         console.error('שגיאה בהעתקת התוכן: ', err);
-        sendResponse({ status: "error" });
+        sendResponse({ status: "error", message: err.message });
       });
     } catch (err) {
       console.error('שגיאה כללית בהעתקה: ', err);
-      sendResponse({ status: "error" });
+      sendResponse({ status: "error", message: err.message });
     }
 
     return true; // כדי לציין שתגובה תשלח בצורה אסינכרונית

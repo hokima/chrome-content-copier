@@ -1,14 +1,12 @@
 {
   "manifest_version": 3,
   "name": "Content Copier without Ads",
-  "version": "1.0",
+  "version": "1.1",
   "description": "תוסף להעתקת תוכן מאתרים ללא פרסומות, סרטונים ותמונות",
   "permissions": [
     "activeTab",
-    "scripting",
     "clipboardWrite",
-    "clipboardRead",
-    "tabs"
+    "scripting"
   ],
   "host_permissions": [
     "<all_urls>"
@@ -25,7 +23,10 @@
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
-      "run_at": "document_end"
+      "run_at": "document_idle"
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

@@ -1,27 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
   const copyButton = document.getElementById('copy-content');
+  const statusMessage = document.getElementById('status-message');
 
   if (copyButton) {
     copyButton.addEventListener('click', () => {
-      console.log("לחיצה על כפתור העתקה"); // הודעת פלט לבדיקת הלחיצה על הכפתור
+      console.log("לחיצה על כפתור העתקה");
+      statusMessage.textContent = "מנסה להעתיק...";
 
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs.length > 0) {
-          chrome.tabs.sendMessage(tabs[0].id, { action: "copyContent" }, (response) => {
-            if (response && response.status === "success") {
-              console.log("ההעתקה הושלמה בהצלחה");
-              alert("התוכן הועתק בהצלחה!");
-            } else {
-              console.error("שגיאה בהעתקה.");
-              alert("אירעה שגיאה בהעתקת התוכן.");
-            }
-          });
+      chrome.runtime.sendMessage({action: "copyContent"}, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+          statusMessage.textContent = "שגיאה: " + chrome.runtime.lastError.message;
+        } else if (response && response.status === "success") {
+          console.log("ההעתקה הושלמה בהצלחה");
+          statusMessage.textContent = "התוכן הועתק בהצלחה!";
         } else {
-          console.error("לא נמצא טאב פעיל.");
+          console.error("שגיאה בהעתקה:", response ? response.message : "לא התקבלה תגובה");
+          statusMessage.textContent = "שגיאה בהעתקה: " + (response ? response.message : "לא התקבלה תגובה");
         }
       });
     });
   } else {
     console.error("כפתור העתקה לא נמצא ב-popup.html");
+    statusMessage.textContent = "שגיאה: כפתור העתקה לא נמצא.";
   }
 });
