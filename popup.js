@@ -1,12 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // מאזין ללחיצה על הכפתור
   document.getElementById('copy-content').addEventListener('click', () => {
-    // שליחת הודעה ל-content script כדי להפעיל את פונקציית ההעתקה
+    console.log("לחיצה על כפתור העתקה"); // הודעת פלט לבדיקת הלחיצה על הכפתור
+
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       chrome.tabs.sendMessage(tabs[0].id, { action: "copyContent" }, (response) => {
         if (response && response.status === "success") {
-          // הצגת הודעה על הצלחה
-          alert("התוכן הועתק בהצלחה ל-Clipboard!");
+          console.log("ההעתקה הושלמה בהצלחה");
         } else {
           console.error("שגיאה בהעתקה.");
         }
