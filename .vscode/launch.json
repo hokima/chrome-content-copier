@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Debug Extension",
+        "url": "https://www.ynet.co.il/sport/worldsoccer/article/hjofg6rjjl",
+        "webRoot": "${workspaceFolder}",
+        "runtimeArgs": [
+          "--load-extension=${workspaceFolder}",
+          "--disable-extensions-except=${workspaceFolder}",
+          "--no-default-browser-check"
+        ],
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+          "webpack:///./src/*": "${webRoot}/src/*"
+        },
+        "skipFiles": [
+          "<node_internals>/**",
+          "${workspaceFolder}/node_modules/**",
+          "chrome-error://**"
+        ]
+      },
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Debug Popup",
+        "url": "${workspaceFolder}/popup.html",
+        "webRoot": "${workspaceFolder}",
+        "runtimeArgs": [
+          "--load-extension=${workspaceFolder}",
+          "--disable-extensions-except=${workspaceFolder}",
+          "--no-default-browser-check"
+        ],
+        "skipFiles": [
+          "<node_internals>/**",
+          "${workspaceFolder}/node_modules/**",
+          "chrome-error://**"
+        ]
+      }
+    ]
+  }

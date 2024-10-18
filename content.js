@@ -1,24 +1,39 @@
+console.log('Content script is loading...');
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('Message received in content script:', request);
+  
+  if (request.action === "ping") {
+    console.log('Ping received, sending response');
+    sendResponse({status: "success", message: "Content script is active"});
+    return true;
+  }
+  
   if (request.action === "copyContent") {
     try {
-      console.log("התקבלה בקשה להעתקת תוכן");
-
-      // קבלת התוכן הטקסטואלי הנקי
       const textContent = document.body.innerText;
+      const textArea = document.createElement("textarea");
+      textArea.value = textContent;
+      document.body.appendChild(textArea);
+      textArea.select();
+      
+      const success = document.execCommand('copy');
+      
+      document.body.removeChild(textArea);
 
-      // העתקת התוכן ללוח
-      navigator.clipboard.writeText(textContent).then(() => {
-        console.log("התוכן הועתק בהצלחה ל-Clipboard");
+      if (success) {
+        console.log("Content copied successfully");
         sendResponse({ status: "success", message: "התוכן הועתק בהצלחה" });
-      }).catch(err => {
-        console.error('שגיאה בהעתקת התוכן: ', err);
-        sendResponse({ status: "error", message: err.message });
-      });
+      } else {
+        console.error('Failed to copy content');
+        sendResponse({ status: "error", message: "לא הצלחנו להעתיק את התוכן" });
+      }
     } catch (err) {
-      console.error('שגיאה כללית בהעתקה: ', err);
+      console.error('Error in content script:', err);
       sendResponse({ status: "error", message: err.message });
     }
-
-    return true; // כדי לציין שתגובה תשלח בצורה אסינכרונית
+    return true; // Indicates that the response will be sent asynchronously
   }
 });
+
+console.log('Content script loaded successfully');
