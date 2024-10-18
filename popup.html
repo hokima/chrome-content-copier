@@ -3,19 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>העתקת כתבה</title>
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <title>העתקת תוכן</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    #status-message {
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>העתקת כתבה</h1>
-    <button id="copy-content" class="copy-button">
-      <span class="button-text">העתק כתבה</span>
-      <span class="button-icon">📋</span>
-    </button>
-    <div id="status-message" class="status-message"></div>
-  </div>
+  <h1>העתקת תוכן</h1>
+  <button id="copy-content">העתק תוכן</button>
+  <div id="status-message"></div>
   <script src="popup.js"></script>
 </body>
 </html>
